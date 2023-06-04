@@ -1,0 +1,17 @@
+<div class="container">
+  <header class="header">
+			<h1 id="title" class="text-center">Editar factura</h1>
+		</header>
+  <div class="form-wrap">
+<form method="POST" id="editForm" action="/editInvoice/{{id}}?_method=PATCH">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="payment">Ajustar pago</label>
+        <input type="number" name="payment" id="payment" class="form-control" value="{{invoice.payment}}" required>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar factura</button>
+</form>
+  </div>

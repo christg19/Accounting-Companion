@@ -1,0 +1,61 @@
+<div class="container">
+  <header class="header">
+			<h1 id="title" class="text-center">Facturas extra</h1>
+		</header>
+  <div class="form-wrap">
+    <form id="invoice-form" action="/test/{{companyId}}/" method="post">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="month">Fecha</label>
+            <input type="Date" name="month" id="month" class="form-control" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="description">Descripción</label>
+            <input type="text" name="description" id="description" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="payment">Pago</label>
+            <input type="number" name="payment" id="payment" class="form-control">
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Guardar factura</button>
+    </form>
+  </div>
+</div><br><br>
+<div class="container">
+  <header class="header">
+			<h1 id="title" class="text-center">Estado de cuenta mensual</h1>
+		</header>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Mes</th>
+        <th>Descripción</th>
+        <th>Pago</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each invoices}}
+        <tr>
+          <td>{{this.month}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.payment}}</td>
+          <td><a href="/editInvoice/{{this._id}}" class="btn btn-primary" id="myButton" type="submit"
+								data-toggle="toast">Editar</a></td>
+                <td><form action="/test/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+          					<button type="submit" class="btn btn-danger btn-delete">Eliminar</button>
+       					</form></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+

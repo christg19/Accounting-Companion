@@ -1,0 +1,49 @@
+<div class="add_user-wrap">
+<form method="POST" id="editForm" action="/edit/{{company._id}}?_method=PUT">
+	
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="edit-companyName">Nombre de la compañía:</label>
+				<input type="text" id="edit-companyName" name="companyName" class="form-control"
+					value={{company.companyName}} required>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="edit-rnc">RNC:</label>
+				<input type="number" id="edit-rnc" name="rnc" class="form-control" value={{company.rnc}} required>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="edit-itbs">ITBS: {{this.itbs}}</label>
+				<input type="checkbox" id="edit-itbs" name="itbs" value={{company.itbs}}>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="edit-f606">¿Entregó 606?: {{this.f606}}</label>
+				<input type="checkbox" id="edit-f606" name="f606" value={{company.f606}}>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="edit-f607">¿Entregó 607?:</label>
+				<input type="checkbox" id="edit-f607" name="f607" value={{company.f607}}>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="edit-dateClose">Fecha de cierre:</label>
+				<input type="date" id="edit-dateClose" name="dateClose" class="form-control" value={{company.dateClose}} required>
+			</div>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-warning btn-modify">Actualizar</button>
+</form>
+</div>

@@ -1,0 +1,130 @@
+<div class="container">
+	<section>
+		<header class="header">
+			{{!-- <h1 id="title" class="text-center">Registro de compañía</h1> --}}
+			{{!-- <p id="description" class="text-center">
+				Thank you for taking the time to help us improve the platform
+			</p> --}}
+		</header>
+		<div class="form-wrap">
+			<form id="survey-form" action="/dashboard" method="post">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label id="name-label" for="name">Compañía</label>
+							<input type="text" name="companyName" id="companyName"
+								placeholder="Ingrese el nombre registrado" class="form-control" required>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label id="rnc-label" for="email">RNC</label>
+							<input type="number" name="rnc" id="rnc" placeholder="Ingresa el RNC" class="form-control"
+								required>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>ITBS/Reportes de Compra y Venta</label>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="checkbox" id="itbs" value="true" name="itbs" class="custom-control-input"
+									checked="">
+								<label class="custom-control-label" for="customRadioInline1">ITBS</label>
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="checkbox" id="f606" value="true" name="f606" class="custom-control-input">
+								<label class="custom-control-label" for="customRadioInline2">¿Entregó 606?</label>
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="checkbox" id="f607" value="true" class="custom-control-input" name="f607">
+								<label class="custom-control-label" for="customRadioInline3">¿Entregó 607?</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label id="name-label" for="date">Fecha de cierre</label>
+							<input type="date" name="dateClose" id="dateClose" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label id="rnc-label" for="payment">Pago mensual</label>
+							<input type="number" name="monthlyPayment" id="monthlyPayment" placeholder="Ingresa la cantidad" class="form-control"
+								required>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<button class="btn btn-primary" id="myButton" type="submit"
+								data-toggle="toast">Subir</button>
+						</div>
+					</div>
+			</form>
+		</div>
+</div>
+</section>
+
+<div class="container">
+	<section>
+		<header class="header">
+		</header>
+		<div class="add_user-wrap">
+			{{#each companies}}
+			<div class="card">
+				<div class="{{cardColor}}"></div>
+				<div class="card-body card-style ">
+					<h5 class="card-tittle " data-field="companyName" id="companyName-{{this.id}}">{{this.companyName}}
+						<span class="position-absolute bottom-0 end-0 bg-light p-3">Deuda:{{this.debt}}</span>
+					</h5>
+					</div>
+					<button class="icon-button toggle-button mt-n1"><i class="fas fa-plus"></i></button>
+					<div class="card-content">
+						<p class="card-text fw-bold">RNC: <span class="fs-6" data-field="rnc"
+								id="rnc-{{this.id}}"><br/><p class="card-result">{{this.rnc}}</p></span></p>
+						<p class="card-text fw-bold">ITBS: <span class="fs-6" data-field="f606"
+								id="itbs-{{this.id}}"><br/><p class="card-result">{{this.itbs}}</p></span></p>
+						<p class="card-text fw-bold">¿Entregó 606?: <span class="fs-6" data-field="f606"
+								id="f606-{{this.id}}"><br/><p class="card-result">{{this.f606}}</p></span></p>
+						<p class="card-text fw-bold">¿Entregó 607?: <span class="fs-6" data-field="f607"
+								id="f607-{{this.id}}"><br/><p class="card-result">{{this.f607}}</p></span></p>
+						<p class="card-text fw-bold">Fecha de cierre: <span class="fs-6" data-field="dateClose"
+								id="dateClose-{{this.id}}"><br/><p class="card-result">{{this.dateClose}}</p></span></p>
+						<a href="/edit/{{this._id}}" class="btn btn-success btn-modify">Modificar</a>
+						<form action="/dashboard/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+          					<button type="submit" class="btn btn-danger btn-delete">Eliminar</button>
+       					</form>
+						<a href="/test/{{this._id}}" class="btn btn-info btn-modify">Estado de cuenta</a>
+					</div>
+				</div>
+			{{/each}}
+		</div>
+		
+	</section>
+</div>
+
+{{!-- script para desplegar cards --}}
+<script>
+	const toggleButtons = document.querySelectorAll('.toggle-button');
+
+	toggleButtons.forEach((button) => {
+		button.addEventListener('click', (event) => {
+			const cardBody = button.parentNode;
+			const cardContent = cardBody.querySelector('.card-content'); // Ajusta el selector aquí
+
+			if (cardContent.style.display === 'none') {
+				cardContent.style.display = 'block';
+				button.innerHTML = '<i class="fas fa-minus"></i>';
+			} else {
+				cardContent.style.display = 'none';
+				button.innerHTML = '<i class="fas fa-plus"></i>';
+			}
+		});
+	});
+</script>
