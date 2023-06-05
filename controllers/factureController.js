@@ -81,8 +81,21 @@ exports.invoicePatch = async (req, res) => {
       { payment },
       { new: true }
     );
-
+    
     if (updatedInvoice) {
+      const invoice = await invoiceModel.findById(id).exec();
+      const company = await companyModel.findById(invoice.companyOwner).exec();
+      
+      if (!company) {
+        return res.status(404).json({ error: 'Empresa no encontrada' });
+      }
+      
+      const diferencia = payment - invoice.payment;
+      
+      company.debt += diferencia;
+      
+      await company.save();
+      
       return res.redirect(`/editInvoice/${id}`);
     } else {
       res.json({ success: false });
@@ -92,6 +105,7 @@ exports.invoicePatch = async (req, res) => {
     res.status(500).send("No se pudo actualizar el pago de la factura");
   }
 };
+
 
 
 exports.getEditInvoice = (req, res) => {
