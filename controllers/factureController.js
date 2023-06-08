@@ -17,16 +17,22 @@ exports.newInvoice = (req, res, next) => {
   newInvoice
     .save()
     .then(async () => {
-      // Obtén la empresa propietaria de la factura
       const company = await companyModel.findById(companyId).exec();
       if (!company) {
         return res.status(404).json({ error: 'Empresa no encontrada' });
       }
-      const diferencia = company.monthlyPayment - payment;
+      if(company.debt > 0){
+        const diferencia = payment;
 
-      company.debt += diferencia;
+        company.debt -= diferencia;
+  
+        await company.save();
+      }
 
-      await company.save();
+
+      else if(company.debt <= 0){
+        company.extra += payment
+      }
 
       setTimeout(() => {
         res.redirect('/test/' + companyId);
@@ -89,13 +95,12 @@ exports.invoicePatch = async (req, res) => {
       if (!company) {
         return res.status(404).json({ error: 'Empresa no encontrada' });
       }
-      
-      const diferencia = payment - invoice.payment;
-      
-      company.debt += diferencia;
+
+      const diferencia = company.monthlyPayment - payment;
+      company.debt = diferencia;
       
       await company.save();
-      
+      console.log(company.debt)
       return res.redirect(`/editInvoice/${id}`);
     } else {
       res.json({ success: false });
