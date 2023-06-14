@@ -12,6 +12,7 @@ exports.newInvoice = (req, res, next) => {
     payment,
     companyOwner: new ObjectId(companyId)
   });
+
   newInvoice
     .save()
     .then(async () => {
@@ -19,24 +20,22 @@ exports.newInvoice = (req, res, next) => {
       if (!company) {
         return res.status(404).json({ error: 'Empresa no encontrada' });
       }
-      if(newInvoice.description === 'Mensual'){
-        company.debt = company.monthlyPayment - newInvoice.payment;
-        if(company.debt ){}
-    }
-    else if(newInvoice.description === 'Extra'){
-        if(company.debt > 0){
-            company.debt -= newInvoice.payment;
-        if(company.debt < 0){
+
+      if (newInvoice.description === 'Mensual') {
+        const totalPayment = newInvoice.payment + company.extra; 
+        company.debt += company.monthlyPayment - totalPayment;
+        company.extra = 0;
+      } else if (newInvoice.description === 'Extra') {
+        if (company.debt > 0) {
+          company.debt -= newInvoice.payment;
+          if (company.debt < 0) {
             company.extra += Math.abs(company.debt);
             company.debt = 0;
+          }
+        } else if (company.debt === 0) {
+          company.extra += newInvoice.payment;
         }
-        }
-        else if(company.debt === 0){
-            company.extra += newInvoice.payment;
-        }
-    }
-
-
+      }
 
       await company.save();
 
@@ -48,6 +47,7 @@ exports.newInvoice = (req, res, next) => {
       next(error);
     });
 };
+
 
 
 exports.getCompaniesEdit = (req, res) => {
