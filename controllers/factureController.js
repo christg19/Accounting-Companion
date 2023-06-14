@@ -20,7 +20,8 @@ exports.newInvoice = (req, res, next) => {
         return res.status(404).json({ error: 'Empresa no encontrada' });
       }
       if(newInvoice.description === 'Mensual'){
-        company.debt = company.monthlyPayment - newInvoice.payment
+        company.debt = company.monthlyPayment - newInvoice.payment;
+        if(company.debt ){}
     }
     else if(newInvoice.description === 'Extra'){
         if(company.debt > 0){
