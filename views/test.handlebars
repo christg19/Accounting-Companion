@@ -1,7 +1,7 @@
 <div class="container">
   <header class="header">
-			<h1 id="title" class="text-center">Facturas extra</h1>
-		</header>
+    <h1 id="title" class="text-center">Facturas extra</h1>
+  </header>
   <div class="form-wrap">
     <form id="invoice-form" action="/test/{{companyId}}/" method="post">
       <div class="row">
@@ -14,7 +14,10 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="description">Descripción</label>
-            <input type="text" name="description" id="description" class="form-control">
+            <select  class="form-select" name="description">
+              <option value="opcion1">Mensual</option>
+              <option value="opcion2">Extra</option>
+            </select>
           </div>
         </div>
       </div>
@@ -32,8 +35,8 @@
 </div><br><br>
 <div class="container">
   <header class="header">
-			<h1 id="title" class="text-center">Estado de cuenta mensual</h1>
-		</header>
+    <h1 id="title" class="text-center">Estado de cuenta mensual</h1>
+  </header>
   <table class="table">
     <thead>
       <tr>
@@ -44,18 +47,18 @@
     </thead>
     <tbody>
       {{#each invoices}}
-        <tr>
-          <td>{{this.month}}</td>
-          <td>{{this.description}}</td>
-          <td>{{this.payment}}</td>
-          <td><a href="/editInvoice/{{this._id}}" class="btn btn-primary" id="myButton" type="submit"
-								data-toggle="toast">Editar</a>
-                <form action="/test/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
-          					<button type="submit" class="btn btn-danger btn-delete">Eliminar</button></td>
-       					</form>
-        </tr>
+      <tr>
+        <td>{{this.month}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.payment}}</td>
+        <td><a href="/editInvoice/{{this._id}}" class="btn btn-primary" id="myButton" type="submit"
+            data-toggle="toast">Editar</a>
+          <form action="/test/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-delete">Eliminar</button>
+        </td>
+        </form>
+      </tr>
       {{/each}}
     </tbody>
   </table>
 </div>
-

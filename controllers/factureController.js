@@ -1,11 +1,10 @@
 const { invoiceModel } = require('../mongo/model/companyModel');
 const { companyModel } = require('../mongo/model/companyModel');
 const { ObjectId } = require('mongoose').Types;
-const express = require('express')
 
 exports.newInvoice = (req, res, next) => {
   const companyId = req.params.companyId;
-  const { month, description, payment, companyOwner } = req.body;
+  const { month, description, payment } = req.body;
 
   const newInvoice = new invoiceModel({
     month,
@@ -13,7 +12,6 @@ exports.newInvoice = (req, res, next) => {
     payment,
     companyOwner: new ObjectId(companyId)
   });
-
   newInvoice
     .save()
     .then(async () => {
@@ -21,18 +19,25 @@ exports.newInvoice = (req, res, next) => {
       if (!company) {
         return res.status(404).json({ error: 'Empresa no encontrada' });
       }
-      if(company.debt > 0){
-        const diferencia = payment;
+      if (newInvoice.description === 'Mensual') {
+        const difference = company.debt - newInvoice.payment;
+        if (difference > 0) {
+          company.debt = difference;
+        } else {
+          company.extra += Math.abs(difference);
+          company.debt = 0;
+        }
+      } else {
+        company.extra += newInvoice.payment;
+      }
+      if(newInvoice.description === 'Extra'){
 
-        company.debt -= diferencia;
-  
-        await company.save();
+      } else {
+        
       }
 
+      await company.save();
 
-      else if(company.debt <= 0){
-        company.extra += payment
-      }
 
       setTimeout(() => {
         res.redirect('/test/' + companyId);
