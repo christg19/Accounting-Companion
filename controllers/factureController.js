@@ -19,25 +19,25 @@ exports.newInvoice = (req, res, next) => {
       if (!company) {
         return res.status(404).json({ error: 'Empresa no encontrada' });
       }
-      if (newInvoice.description === 'Mensual') {
-        const difference = company.debt - newInvoice.payment;
-        if (difference > 0) {
-          company.debt = difference;
-        } else {
-          company.extra += Math.abs(difference);
-          company.debt = 0;
+      if(newInvoice.description === 'Mensual'){
+        company.debt = company.monthlyPayment - newInvoice.payment
+    }
+    else if(newInvoice.description === 'Extra'){
+        if(company.debt > 0){
+            company.debt -= newInvoice.payment;
+        if(company.debt < 0){
+            company.extra += Math.abs(company.debt);
+            company.debt = 0;
         }
-      } else {
-        company.extra += newInvoice.payment;
-      }
-      if(newInvoice.description === 'Extra'){
+        }
+        else if(company.debt === 0){
+            company.extra += newInvoice.payment;
+        }
+    }
 
-      } else {
-        
-      }
+
 
       await company.save();
-
 
       setTimeout(() => {
         res.redirect('/test/' + companyId);
