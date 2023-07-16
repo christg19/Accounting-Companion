@@ -22,9 +22,18 @@ exports.newInvoice = (req, res, next) => {
       }
 
       if (newInvoice.description === 'Mensual') {
-        const totalPayment = newInvoice.payment + company.extra; 
-        company.debt += company.monthlyPayment - totalPayment;
-        company.extra = 0;
+        const totalPayment = newInvoice.payment;
+        const difference = company.monthlyPayment - totalPayment;
+        if (difference > 0) {
+          company.debt += difference;
+        }
+        if(company.debt > 0 & totalPayment > company.monthlyPayment){
+          const monthlyDiff = totalPayment - company.monthlyPayment
+          company.debt -= monthlyDiff
+          if(company.debt < 0){
+            company.extra += Math.abs(company.debt)
+          }
+        }
       } else if (newInvoice.description === 'Extra') {
         if (company.debt > 0) {
           company.debt -= newInvoice.payment;
@@ -32,7 +41,7 @@ exports.newInvoice = (req, res, next) => {
             company.extra += Math.abs(company.debt);
             company.debt = 0;
           }
-        } else if (company.debt === 0) {
+        } else {
           company.extra += newInvoice.payment;
         }
       }

@@ -6,12 +6,16 @@ exports.getCompaniesEdit = async (req, res) => {
   try {
     const id = req.params.id;
     const company = await companyModel.findById(id).lean();
-    res.render('edit', { company: company });
+    const formattedDate = company.dateClose.toISOString().slice(0, 10);
+
+    company.dateClose = formattedDate;
+
+    res.render('edit', { company });
   } catch (error) {
     console.log(error);
     res.status(500).send('Error al cargar el dashboard');
   }
-};
+}
 
 exports.formPut = async (req, res) => {
   try {
@@ -21,7 +25,6 @@ exports.formPut = async (req, res) => {
     let currentDate = new Date(req.body.dateClose);
     currentDate.setDate(currentDate.getDate() + 1);
     req.body.dateClose = currentDate;
-
     req.body.itbs = req.body.itbs ? true : false;
     req.body.f606 = req.body.f606 ? true : false;
     req.body.f607 = req.body.f607 ? true : false;
