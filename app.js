@@ -24,15 +24,6 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-// app.engine('handlebars', engine({
-//     helpers: {
-//       checkDebt: function (itbs, f606, f607) {
-//         return itbs && f606 && f607;
-//       }
-//     }
-//   }));
-
-
 // static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
