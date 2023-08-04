@@ -1,12 +1,12 @@
 .card {
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	margin-bottom: 10px;
+	border: 0.063rem solid #ccc;
+	border-radius: 0.25rem;
+	margin-bottom: 0.625rem;
   }
   
   .card-header {
 	background-color: #f0f0f0;
-	padding: 10px;
+	padding: 0.625rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -14,19 +14,20 @@
   }
   .cardtittle{
 	font-family: "Cormorant Garamond", serif;
+	font-size: 1.4rem;
   }
   
   .card-content {
 	display: none;
-	padding: 10px;
+	padding: 0.625rem;
   }
 
   .icon-button {
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
-	width: 24px;
-	height: 24px;
+	width: 1.5rem;
+	height: 1.5rem;
   }
   
   .icon-button img {
@@ -35,7 +36,7 @@
   }
 
   .card-style{
-	border-radius: 8px;
+	border-radius: 0.5rem;
 	padding: 0.5rem
   }
 
@@ -46,6 +47,10 @@
   /* Deuda y extra */
   .debt{
 	color: crimson;
+  }
+
+  .debtAndExtra-text{
+	font-family: "Cormorant Garamond", serif;
   }
 
   .extra{

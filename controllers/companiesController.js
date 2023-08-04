@@ -1,6 +1,6 @@
 const { companyModel } = require('../mongo/model/companyModel');
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
 exports.newModel = (req, res, next) => {
   const { rnc, companyName, itbs, f606, f607, dateClose, monthlyPayment } = req.body;
@@ -18,7 +18,7 @@ exports.newModel = (req, res, next) => {
     dateClose: currentDate,
     monthlyPayment 
   });
-
+  console.log(`Fecha de cierre test: ${currentDate}`)
   newCompany
     .save()
     .then(() => {

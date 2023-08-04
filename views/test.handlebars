@@ -2,6 +2,13 @@
   <header class="header">
     <h1 id="title" class="text-center">Facturas extra</h1>
   </header>
+<div>
+    {{#if error}}
+    <div class="alert alert-danger">
+      {{error}}
+    </div>
+  {{/if}}
+</div> <br>
   <div class="form-wrap">
     <form id="invoice-form" action="/test/{{companyId}}/" method="post">
       <div class="row">
@@ -14,7 +21,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="description">Descripción</label>
-            <select  class="form-select" name="description">
+            <select class="form-select" name="description">
               <option value="Mensual">Mensual</option>
               <option value="Extra">Extra</option>
             </select>
@@ -29,6 +36,7 @@
           </div>
         </div>
       </div>
+      <a href="/dashboard" class="btn btn-warning btn-modify">Atras</a>
       <button type="submit" class="btn btn-primary">Guardar factura</button>
     </form>
   </div>
@@ -51,14 +59,39 @@
         <td>{{this.month}}</td>
         <td>{{this.description}}</td>
         <td>{{this.payment}}</td>
-        {{!-- <td><a href="/editInvoice/{{this._id}}" class="btn btn-primary" id="myButton" type="submit"
-            data-toggle="toast">Editar</a>
-          <form action="/test/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-danger btn-delete">Eliminar</button>
-        </td>
-        </form> --}}
       </tr>
       {{/each}}
     </tbody>
   </table>
 </div>
+
+<script>
+	// Data de atlas
+async function fetchCompanieData() {
+  try {
+    const response = await fetch('/api/companies');
+    const companyData = await response.json();
+
+    console.log(companyData);
+
+  } catch (error) {
+    console.error('Error al obtener los datos de las compañías:', error);
+  }
+}
+
+async function fetchInvoiceData() {
+  try {
+    const response = await fetch('/api/invoices');
+    const invoiceData = await response.json();
+
+    console.log(invoiceData);
+    // calcularDeuda(invoiceData);
+
+  } catch (error) {
+    console.error('Error al obtener los datos de factura:', error);
+  }
+}
+
+fetchInvoiceData();
+fetchCompanieData();
+</script>

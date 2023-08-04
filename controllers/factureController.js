@@ -2,7 +2,7 @@ const { invoiceModel } = require('../mongo/model/companyModel');
 const { companyModel } = require('../mongo/model/companyModel');
 const { ObjectId } = require('mongoose').Types;
 
-exports.newInvoice = (req, res, next) => {
+exports.newInvoice = async (req, res, next) => {
   const companyId = req.params.companyId;
   const { month, description, payment } = req.body;
 
@@ -12,10 +12,6 @@ exports.newInvoice = (req, res, next) => {
     payment,
     companyOwner: new ObjectId(companyId)
   });
-
-  newInvoice
-    .save()
-    .then(async () => {
       const company = await companyModel.findById(companyId).exec();
       if (!company) {
         return res.status(404).json({ error: 'Empresa no encontrada' });
@@ -27,10 +23,10 @@ exports.newInvoice = (req, res, next) => {
         if (difference > 0) {
           company.debt += difference;
         }
-        if(company.debt > 0 & totalPayment > company.monthlyPayment){
+        if (company.debt > 0 & totalPayment > company.monthlyPayment) {
           const monthlyDiff = totalPayment - company.monthlyPayment
           company.debt -= monthlyDiff
-          if(company.debt < 0){
+          if (company.debt < 0) {
             company.extra += Math.abs(company.debt)
           }
         }
@@ -46,20 +42,26 @@ exports.newInvoice = (req, res, next) => {
         }
       }
 
-      await company.save();
+      if (newInvoice.payment > company.monthlyPayment) {
+        req.flash('error', 'El pago no puede ser mayor al estipulado');
+        setTimeout(() => {
+          res.redirect('/test/' + companyId);
+        }, 1000);
+      } else {
+        await company.save();
+        await newInvoice.save();
+    
+        setTimeout(() => {
+          res.redirect('/test/' + companyId);
+        }, 1000);
+      }
+    };
 
-      setTimeout(() => {
-        res.redirect('/test/' + companyId);
-      }, 1000);
-    })
-    .catch((error) => {
-      next(error);
-    });
-};
 
 
 
-exports.getCompaniesEdit = (req, res) => {
+exports.getCompaniesEdit = async (req, res) => {
+
   const companyId = req.params.id;
 
   // Consulta las facturas por companyId
@@ -69,6 +71,7 @@ exports.getCompaniesEdit = (req, res) => {
         ...invoice,
         month: formatDate(invoice.month)
       }));
+
       res.render('test', { companyId: companyId, invoices: modifiedResult });
     })
     .catch(error => {
@@ -102,18 +105,18 @@ exports.invoicePatch = async (req, res) => {
       { payment },
       { new: true }
     );
-    
+
     if (updatedInvoice) {
       const invoice = await invoiceModel.findById(id).exec();
       const company = await companyModel.findById(invoice.companyOwner).exec();
-      
+
       if (!company) {
         return res.status(404).json({ error: 'Empresa no encontrada' });
       }
 
       const diferencia = company.monthlyPayment - payment;
       company.debt = diferencia;
-      
+
       await company.save();
       console.log(company.debt)
       return res.redirect(`/editInvoice/${id}`);
@@ -133,13 +136,13 @@ exports.getEditInvoice = (req, res) => {
   res.render('editFacture', { id })
 }
 
-exports.deleteFacture =  async (req, res) => {
-    try {
-      const id = req.params.id;
-      await invoiceModel.findByIdAndDelete(id);
-      res.redirect("/dashboard");
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("No se pudo eliminar la empresa");
-    }
-  };
+exports.deleteFacture = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await invoiceModel.findByIdAndDelete(id);
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("No se pudo eliminar la empresa");
+  }
+};

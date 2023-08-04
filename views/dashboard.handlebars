@@ -1,9 +1,26 @@
 <header class="custom-header">
-	<nav class="navbar navbar-expand-lg navbar-light bg-transparent fixed-top">
-		<div class="ml-auto">
-			<button id="myBtn" class="icon-button">
-  <i class="fas fa-bell navbar-icon fa-lg" id="icon"></i>
-</button>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+		<a class="navbar-brand" href="#">
+			<img src="/images/ozudev.svg" id="img-logo">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+			aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo02">
+
+			<ul class="navbar-nav">
+				<li class="nav-item me-4 mt-2">
+					<button id="myBtn" class="icon-button">
+						<i class="fas fa-bell navbar-icon fa-lg animated-icon red-icon" id="icon"></i>
+					</button>
+				</li>
+				<li class="nav-item me-3 mt-2 mb-1">
+					<img src="/images/off.svg">
+					</button>
+				</li>
+
+			</ul>
 		</div>
 	</nav>
 
@@ -90,8 +107,10 @@
 			<div class="card">
 				<div class="{{cardColor}}"></div>
 				<div class="card-body card-style ">
-					<h5 class="card-tittle " data-field="companyName" id="companyName-{{this.id}}"><h7 class="cardtittle">{{this.companyName}}</h7>
-						<span class="position-absolute bottom-0 end-0 bg-light p-3">Deuda:<h7 class="debt">{{this.debt}}
+					<h5 class="card-tittle " data-field="companyName" id="companyName-{{this.id}}">
+						<h7 class="cardtittle">{{this.companyName}}</h7>
+						<span class="position-absolute bottom-0 end-0 bg-light p-3 debtAndExtra-text">Deuda:<h7
+								class="debt">{{this.debt}}
 							</h7>| Extra:<h7 class="extra">{{this.extra}}</h7></span>
 					</h5>
 				</div>
@@ -120,7 +139,8 @@
 							<p class="card-result">{{this.dateClose}}</p>
 						</span></p>
 					<a href="/edit/{{this._id}}" class="btn btn-success btn-modify">Modificar</a>
-					<form action="/dashboard/{{this._id}}?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirmDelete()">
+					<form action="/dashboard/{{this._id}}?_method=DELETE" method="POST" style="display: inline;"
+						onsubmit="return confirmDelete()">
 						<button type="submit" class="btn btn-danger btn-delete">Eliminar</button>
 					</form>
 					<a href="/test/{{this._id}}" class="btn btn-info btn-modify">Estado de cuenta</a>
@@ -129,15 +149,19 @@
 			{{/each}}
 		</div>
 		{{!-- modal --}}
-<div id="myModal" class="modal">
+		<div id="myModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">
+				{{!-- <span class="close">&times;</span> --}}
+				<div class="modal-title">
+					<h1>Notificaciones</h1>
+					<p class="line"> </p>
+					<p id="modalMessage"></p>
+				</div>
+				<button class="btn btn-primary close">&times;</button>
+			</div>
+		</div>
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
-
-</div>
 
 	</section>
 </div>
@@ -162,10 +186,69 @@
 	});
 </script>
 <script>
-function confirmDelete() {
+	function confirmDelete() {
 
-  const isConfirmed = confirm("¿Estás seguro de que deseas eliminar este elemento?");
+		const isConfirmed = confirm("¿Estás seguro de que deseas eliminar este elemento?");
 
-  return isConfirmed;
-}
+		return isConfirmed;
+	}
+</script>
+
+
+
+<script>
+	async function fetchCompanieData() {
+		try {
+			const response = await fetch('/api/companies');
+			const companyData = await response.json();
+
+			console.log(companyData);
+
+			// Llamar a reminderDateClose con los datos de compañias obtenidos
+			reminderDateClose(companyData);
+
+		} catch (error) {
+			console.error('Error al obtener los datos de las compañías:', error);
+		}
+	}
+
+	function reminderDateClose(companyData) {
+		if (companyData) {
+			const modalMessageElement = document.getElementById('modalMessage');
+			modalMessageElement.textContent = '';
+
+			for (let i = 0; i < companyData.length; i++) {
+				let companiesDate = new Date(companyData[i].dateClose);
+				companiesDate.setDate(companiesDate.getDate() - 15);
+				const actualDate = new Date();
+
+				if (companiesDate.getDate() === actualDate.getDate()) {
+					modalMessageElement.textContent += `🔔 Recuerda que la fecha de cierre de ${companyData[i].companyName} es en 15 días.\n \n`;
+					setTimeout(() => {
+						const icon = document.getElementById('icon');
+						icon.style.color = 'red';
+						icon.classList.add('animated-icon');
+					}, 1000);
+
+
+				} else {
+					// modalMessageElement.textContent += `🔔 Recuerda que la fecha de cierre de ${companyData[i].companyName} es en 15 días.\n \n`;
+					console.log(`Date actual: ${actualDate}`)
+					console.log(companiesDate)
+					const icon = document.getElementById('icon');
+					icon.style.color = '';
+					icon.classList.remove('animated-icon');
+				}
+			}
+		} else {
+			console.log('No se han obtenido los datos de las compañías todavía.');
+		}
+	}
+
+	function formatDate(date) {
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		return date.toLocaleDateString('es-ES', options);
+	}
+
+	fetchCompanieData();
 </script>

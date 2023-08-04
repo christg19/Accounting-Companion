@@ -3,8 +3,32 @@
 .navbar-icon {
 	padding: 5px;
   }
+  .navbar {
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Cambia los valores según necesites */
+  }
 
 
+#img-logo{
+	margin-left: 2rem;
+}
+
+
+  @keyframes ring {
+	0%, 100% {
+	  transform: scale(1);
+	}
+	50% {
+	  transform: scale(1.2);
+	}
+  }
+
+  .red-icon{
+	color: black;
+  }
+  
+  .animated-icon {
+	animation: ring 1s infinite;
+  }
 
 .container{
 	max-width: 1230px;
@@ -173,8 +197,6 @@ textarea.form-control{
 	-moz-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
 	box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
 }
-
-/* plegable */
 
 
   

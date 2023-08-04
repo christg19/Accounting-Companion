@@ -6,7 +6,12 @@ exports.getCompaniesEdit = async (req, res) => {
   try {
     const id = req.params.id;
     const company = await companyModel.findById(id).lean();
-    const formattedDate = company.dateClose.toISOString().slice(0, 10);
+
+    const dateClose = new Date(company.dateClose);
+
+    dateClose.setHours(0, 0, 0, 0);
+
+    const formattedDate = dateClose.toISOString().slice(0, 10);
 
     company.dateClose = formattedDate;
 
@@ -15,7 +20,8 @@ exports.getCompaniesEdit = async (req, res) => {
     console.log(error);
     res.status(500).send('Error al cargar el dashboard');
   }
-}
+};
+
 
 exports.formPut = async (req, res) => {
   try {
@@ -23,7 +29,7 @@ exports.formPut = async (req, res) => {
     const options = { new: true };
 
     let currentDate = new Date(req.body.dateClose);
-    currentDate.setDate(currentDate.getDate() + 1);
+    currentDate.setDate(currentDate.getDate());
     req.body.dateClose = currentDate;
     req.body.itbs = req.body.itbs ? true : false;
     req.body.f606 = req.body.f606 ? true : false;
