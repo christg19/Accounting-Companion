@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -40,6 +41,7 @@
     border: 1px solid #888;
     width: 40%; /* Could be more or less, depending on screen size */
     white-space: pre-line; /* Esto hará que los saltos de línea se interpreten como saltos de línea en el contenido del párrafo */
+    font-family: 'Montserrat', sans-serif;
   }
   
   /* The Close Button */

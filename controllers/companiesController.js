@@ -18,7 +18,6 @@ exports.newModel = (req, res, next) => {
     dateClose: currentDate,
     monthlyPayment 
   });
-  console.log(`Fecha de cierre test: ${currentDate}`)
   newCompany
     .save()
     .then(() => {
@@ -27,7 +26,7 @@ exports.newModel = (req, res, next) => {
       }, 1000);
     })
     .catch((error) => {
-      next(error); // Llamar a next con el error para pasar al siguiente middleware de manejo de errores
+      next(error);
     });
 };
 

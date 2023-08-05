@@ -29,7 +29,7 @@ exports.formPut = async (req, res) => {
     const options = { new: true };
 
     let currentDate = new Date(req.body.dateClose);
-    currentDate.setDate(currentDate.getDate());
+    currentDate.setDate(currentDate.getDate()+1);
     req.body.dateClose = currentDate;
     req.body.itbs = req.body.itbs ? true : false;
     req.body.f606 = req.body.f606 ? true : false;

@@ -12,7 +12,6 @@ async function fetchCompanieData() {
 
         console.log(companyData);
 
-        // Llamar a reminderDateClose con los datos de compañias obtenidos
         reminderDateClose(companyData);
 
     } catch (error) {
@@ -23,7 +22,7 @@ async function fetchCompanieData() {
 function reminderDateClose(companyData) {
     if (companyData) {
         const modalMessageElement = document.getElementById('modalMessage');
-        modalMessageElement.textContent = '';
+        modalMessageElement.innerHTML = ''; // Limpiamos el contenido anterior
 
         for (let i = 0; i < companyData.length; i++) {
             let companiesDate = new Date(companyData[i].dateClose);
@@ -31,27 +30,23 @@ function reminderDateClose(companyData) {
             const actualDate = new Date();
 
             if (companiesDate.getDate() === actualDate.getDate()) {
-                modalMessageElement.textContent += `🔔 Recuerda que la fecha de cierre de ${companyData[i].companyName} es en 15 días.\n \n`;
+                const message = companyData[i].companyName;
+                // Usamos insertAdjacentHTML para insertar HTML renderizable
+                modalMessageElement.insertAdjacentHTML('beforeend', `🔔 La fecha de cierre de <strong>${message}</strong> es en 15 días.<br><br>`);
                 setTimeout(() => {
                     const icon = document.getElementById('icon');
                     icon.style.color = 'red';
                     icon.classList.add('animated-icon');
                 }, 1000);
-
-
             } else {
-                // modalMessageElement.textContent += `🔔 Recuerda que la fecha de cierre de ${companyData[i].companyName} es en 15 días.\n \n`;
-                console.log(`Date actual: ${actualDate}`)
-                console.log(companiesDate)
-                const icon = document.getElementById('icon');
-                icon.style.color = '';
-                icon.classList.remove('animated-icon');
+                // ...
             }
         }
     } else {
         console.log('No se han obtenido los datos de las compañías todavía.');
     }
 }
+
 
 function formatDate(date) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };

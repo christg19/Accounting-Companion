@@ -12,7 +12,6 @@
 	margin-left: 2rem;
 }
 
-
   @keyframes ring {
 	0%, 100% {
 	  transform: scale(1);
@@ -112,52 +111,9 @@ textarea.form-control{
 }
 
 .btn{
-	padding: .657rem .75rem;
 	font-size: 18px;
-	letter-spacing: 0.050em;
-	-webkit-transition: all 0.3s ease-in-out;
-	-moz-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
-	transition: all 0.3s ease-in-out;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #00bcd9;
-  border-color: #00bcd9;
-}
-
-.btn-primary:hover {
-  color: #00bcd9;
-  background-color: #ffffff;
-  border-color: #00bcd9;
-	-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-	-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-}
-
-.btn-primary:focus, .btn-primary.focus {
-  color: #00bcd9;
-  background-color: #ffffff;
-  border-color: #00bcd9;
-  -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-	-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-}
-
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
-.show > .btn-primary.dropdown-toggle {
-  color: #00bcd9;
-  background-color: #ffffff;
-  border-color: #00bcd9;
-}
-
-.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
-.show > .btn-primary.dropdown-toggle:focus {
-  -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-	-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-	box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
-}
 
 /* add usuarios */
 .user_header{
@@ -198,5 +154,90 @@ textarea.form-control{
 	box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
 }
 
+.card-edit{
+	margin-top: 4rem;
+}
 
+.text-down{
+	margin-bottom: 2rem;
+}
+
+/* Reset de estilos y estilos globales */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+  }
   
+  body {
+	font-family: Arial, sans-serif;
+  }
+  
+  /* Estilos para el dashboard */
+  .dashboard {
+	display: flex;
+	min-height: 100vh;
+  }
+  
+  .sidebar {
+	width: 250px;
+	background-color: #252830;
+	color: white;
+  }
+  
+  .main-content {
+	flex: 1;
+	padding: 20px;
+  }
+  
+  /* Estilos para el encabezado */
+  .main-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 0;
+	border-bottom: 1px solid #e0e0e0;
+  }
+  
+  /* Estilos para el contenido principal */
+  .content {
+	padding: 20px;
+	background-color: #f9f9f9;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para tarjetas */
+  .card {
+	background-color: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	margin-bottom: 20px;
+  }
+  
+  /* Estilos para botones */
+  .btn {
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	color: white;
+  }
+  
+  .btn-primary {
+	background-color: #007bff;
+	color: #fff;
+  }
+  
+  .btn-success {
+	background-color: #28a745;
+  }
+  
+  .btn-danger {
+	background-color: #dc3545;
+  }
+  
+  .btn-info {
+	background-color: #17a2b8;
+  }
