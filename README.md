@@ -24,3 +24,9 @@ System to manage companies, debt monitoring and reminders.
 - Modify config.env.example to connect your DB 
 - Use `npm run devStart`
 
+## images 
+![Captura de pantalla 1](img_readme/captura_fullpage.png)
+![Captura de pantalla 1](img_readme/page_show1.PNG)
+![Captura de pantalla 1](img_readme/captura_show2.png)
+![Captura de pantalla 1](img_readme/captura_show3.png)
+![Captura de pantalla 1](img_readme/captura_show4.PNG)
