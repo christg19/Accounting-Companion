@@ -21,7 +21,7 @@ System to manage companies, debt monitoring and reminders.
 
 ## How to use
 - Install `npm`
-- Modify config.env.example to connect your DB 
+- Modify config.env.example to connect your Atlas DB 
 - Use `npm run devStart`
 
 ## images 
