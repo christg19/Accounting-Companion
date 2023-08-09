@@ -73,7 +73,9 @@
 		<div class="add_user-wrap">
 			{{#each companies}}
 			<div class="card">
-				<div class="{{cardColor}}"></div>
+				 <div class="row">
+				<div class="{{cardColor}} col-12"></div>
+				</div>
 				<div class="card-body card-style ">
 					<h5 class="card-tittle " data-field="companyName" id="companyName-{{this.id}}">
 						<h7 class="cardtittle">{{this.companyName}}</h7>
@@ -141,7 +143,7 @@
 	toggleButtons.forEach((button) => {
 		button.addEventListener('click', (event) => {
 			const cardBody = button.parentNode;
-			const cardContent = cardBody.querySelector('.card-content'); // Ajusta el selector aquí
+			const cardContent = cardBody.querySelector('.card-content'); 
 
 			if (cardContent.style.display === 'none') {
 				cardContent.style.display = 'block';
